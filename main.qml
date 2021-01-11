@@ -114,7 +114,6 @@ Window {
                 color: "#00000000"
                 Row{
                     spacing: 20
-                    //anchors.centerIn: buttonsRec
                     anchors.horizontalCenter: buttonsRec.horizontalCenter
                     rightPadding: 10
                     leftPadding: 10

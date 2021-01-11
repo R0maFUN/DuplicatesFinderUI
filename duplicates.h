@@ -23,7 +23,6 @@ public:
 
     }
     bool operator==(File& file2);
-    //bool cmp(File& file2, size_t threadId);
     fs::path getPath();
 };
 
@@ -33,18 +32,13 @@ private:
     std::vector<std::pair<File*, File*> > duplicates; // will store duplicates in the vector by pairs
     fs::path path; // path of directory
 public:
-    Directory(){
-    
-    }
     Directory(fs::path dirPath);
     ~Directory();
-    //void setDir();
     void setFiles();
     void findDuplicates(Directory* secondDir);
     inline auto getDuplicates() -> decltype (this->duplicates){
         return this->duplicates;
     }
-    void printDuplicates();
 };
 
 #endif // _DUPLICATES_H_

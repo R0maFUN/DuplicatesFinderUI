@@ -1,19 +1,15 @@
 // Copyright @ Roman Balayan [2021]
 
-#include <conio.h>
 #include "duplicates.h"
 
 const size_t BLOCK_LEN = 1024; // length of the blocks to hasn in bytes
-//const size_t MAX_FILES_DISPLAY = 9; // amount of directories displayed in the menu
 
 Directory::Directory(fs::path dirPath) : path(dirPath)
 {
     if (fs::is_directory(this->path)) {
-        //std::cout << this->path << " is a directory containing:\n";
         for(fs::recursive_directory_iterator itr(this->path), end_itr; itr != end_itr; ++itr){
             if (is_regular_file(itr->path())) { // will not save the directories
                 size_t file_size = fs::file_size(itr->path());
-                //std::cout << "Found file - " << itr->path().filename() << " [" << file_size << " bytes]" << std::endl;
                 this->files.insert(std::pair<size_t, File*>(file_size, new File(*itr)));
             }
         }
@@ -29,11 +25,9 @@ Directory::~Directory()
 void Directory::setFiles()
 {
     if (fs::is_directory(this->path)) {
-        //std::cout << this->path << " is a directory containing:\n";
         for (fs::recursive_directory_iterator itr(this->path), end_itr; itr != end_itr; ++itr) {
             if (is_regular_file(itr->path())) { // will not save the directories
                 size_t file_size = fs::file_size(itr->path());
-                //std::cout << "Found file - " << itr->path().filename() << " [" << file_size << " bytes]" << std::endl;
                 this->files.insert(std::pair<size_t, File*>(file_size, new File(*itr)));
             }
         }
@@ -55,23 +49,11 @@ void Directory::findDuplicates(Directory* secondDir)
     }
 }
 
-//void Directory::printDuplicates()
-//{
-//    std::cout << this->duplicates.size() << " duplicates found:" << std::endl;
-//    for (auto it = this->duplicates.begin(); it != this->duplicates.end(); ++it)
-//        std::cout << it->first->getPath() << "\n" << it->second->getPath() << "\n\n";
-//}
-
-void Directory::printDuplicates(){
-
-}
-
 bool File::operator==(File& file2)
 {
     if (fs::file_size(this->value.path()) != fs::file_size(file2.value.path()))
         return false;
     char* buf = new char[BLOCK_LEN + 1];
-    //std::string p1 = this->value.path().string();
     std::ifstream is1(this->value.path().string(), std::ifstream::binary); // input stream for the first file
     std::ifstream is2(file2.value.path().string(), std::ifstream::binary); // input stream for the second file
     size_t block_id = 0;
